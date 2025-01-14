@@ -1,11 +1,34 @@
 package com.leun.todo.entity;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Todo {
 
+    public void setTodo_id(Integer todo_id) {
+        this.todo_id = todo_id;
+    }
+
+    public void setTodo_username(String todo_username) {
+        this.todo_username = todo_username;
+    }
+
+    public void setTodo_description(String todo_description) {
+        this.todo_description = todo_description;
+    }
+
+    public void setTodo_datetime(LocalDate todo_datetime) {
+        this.todo_datetime = todo_datetime;
+    }
+
+    public void setTodo_done(boolean todo_done) {
+        this.todo_done = todo_done;
+    }
+
     public Todo(Integer todo_id, String todo_username, String todo_description,
-        LocalDateTime todo_datetime, boolean todo_done) {
+        LocalDate todo_datetime, boolean todo_done) {
         this.todo_id = todo_id;
         this.todo_username = todo_username;
         this.todo_description = todo_description;
@@ -15,8 +38,9 @@ public class Todo {
 
     private Integer todo_id;
     private String todo_username;
+    @Size(min=10, message = "Enter at least 10 char")
     private String todo_description;
-    private LocalDateTime todo_datetime;
+    private LocalDate todo_datetime;
     private boolean todo_done;
 
     public Integer getTodo_id() {
@@ -31,7 +55,7 @@ public class Todo {
         return todo_description;
     }
 
-    public LocalDateTime getTodo_datetime() {
+    public LocalDate getTodo_datetime() {
         return todo_datetime;
     }
 

@@ -1,35 +1,24 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Todos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</head>
-<body>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Target Date</th>
-                <th>Is Done?</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${todos}" var="todo">
-                <tr>
-                    <td>${todo.todo_id}</td>
-                    <td>${todo.todo_description}</td>
-                    <td>${todo.todo_datetime}</td>
-                    <td>${todo.todo_done}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-</body>
-</html>
+<%@ include file="common/header.jspf" %>
+<%@ include file="common/navigation.jspf" %>
+<div class="container">
+  <table class="table">
+    <tr>
+      <th>Description</th>
+      <th>Target Date</th>
+      <th>Is Done?</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <c:forEach items="${todos}" var="todo">
+      <tr>
+        <td>${todo.todo_description}</td>
+        <td>${todo.todo_datetime}</td>
+        <td>${todo.todo_done}</td>
+        <td><a href="update-todo?id=${todo.todo_id}" class="btn btn-success">UPDATE</a></td>
+        <td><a href="delete-todo?id=${todo.todo_id}" class="btn btn-warning">DELETE</a></td>
+      </tr>
+    </c:forEach>
+  </table>
+  <a href="add-todo" class="btn btn-success">add-todo</a>
+</div>
+<%@ include file="common/footer.jspf" %>
