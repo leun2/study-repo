@@ -3,3 +3,5 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+    format:
+      date: yyyy-MM-dd
