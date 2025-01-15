@@ -1,76 +1,47 @@
 package com.leun.todo.entity;
 
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Todo {
 
-    public void setTodo_id(Integer todo_id) {
-        this.todo_id = todo_id;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todo_id")
+    private Integer todoId;
 
-    public void setTodo_username(String todo_username) {
-        this.todo_username = todo_username;
-    }
+    @Column(name = "todo_name")
+    private String todoName;
 
-    public void setTodo_description(String todo_description) {
-        this.todo_description = todo_description;
-    }
-
-    public void setTodo_datetime(LocalDate todo_datetime) {
-        this.todo_datetime = todo_datetime;
-    }
-
-    public void setTodo_done(boolean todo_done) {
-        this.todo_done = todo_done;
-    }
-
-    public Todo(Integer todo_id, String todo_username, String todo_description,
-        LocalDate todo_datetime, boolean todo_done) {
-        this.todo_id = todo_id;
-        this.todo_username = todo_username;
-        this.todo_description = todo_description;
-        this.todo_datetime = todo_datetime;
-        this.todo_done = todo_done;
-    }
-
-    private Integer todo_id;
-    private String todo_username;
+    @Column(name = "todo_description")
     @Size(min=10, message = "Enter at least 10 char")
-    private String todo_description;
-    private LocalDate todo_datetime;
-    private boolean todo_done;
+    private String todoDescription;
 
-    public Integer getTodo_id() {
-        return todo_id;
-    }
+    @Column(name = "todo_date")
+    private LocalDate todoDate;
 
-    public String getTodo_username() {
-        return todo_username;
-    }
+    @Column(name = "todo_done")
+    private boolean todoDone;
 
-    public String getTodo_description() {
-        return todo_description;
-    }
-
-    public LocalDate getTodo_datetime() {
-        return todo_datetime;
-    }
-
-    public boolean isTodo_done() {
-        return todo_done;
-    }
-
-    @Override
-    public String toString() {
-        return "Todo{" +
-            "todo_id=" + todo_id +
-            ", todo_username='" + todo_username + '\'' +
-            ", todo_description='" + todo_description + '\'' +
-            ", todo_datetime=" + todo_datetime +
-            ", todo_done=" + todo_done +
-            '}';
+    public Todo(String todoName, String todoDescription, LocalDate todoDate, boolean todoDone) {
+        this.todoName = todoName;
+        this.todoDescription = todoDescription;
+        this.todoDate = todoDate;
+        this.todoDone = todoDone;
     }
 }
