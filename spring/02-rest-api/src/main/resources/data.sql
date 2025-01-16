@@ -1,0 +1,5 @@
+--INSERT INTO users (user_name, user_email)
+--VALUES
+--    ('John Doe', 'john.doe@example.com'),
+--    ('Jane Smith', 'jane.smith@example.com'),
+--    ('Sam Green', 'sam.green@example.com');
