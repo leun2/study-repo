@@ -27,4 +27,9 @@ public class User {
 
     @Column(name = "user_email", unique = true)
     private String userEmail;
+
+    public User(String userName, String userEmail) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+    }
 }
