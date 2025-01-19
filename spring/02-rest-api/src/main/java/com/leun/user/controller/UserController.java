@@ -1,12 +1,16 @@
 package com.leun.user.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.leun.user.dto.UserDto;
 import com.leun.user.entity.User;
 import com.leun.user.service.UserService;
 import jakarta.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -43,10 +48,9 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<String> postUser(@RequestBody @Valid UserDto userDto) {
-        User user = userService.createUser(userDto);
-
+//    public ResponseEntity<String> postUser(@RequestBody @Valid UserDto userDto) {
+//        User user = userService.createUser(userDto);
+//
 //        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 //            .path("/{id}")
 //            .buildAndExpand(user.getUserId())
@@ -54,15 +58,29 @@ public class UserController {
 //
 //        return ResponseEntity.created(location)
 //            .body("User created with Name: " + user.getUserName());
+//
+//        String location = ServletUriComponentsBuilder.fromCurrentRequest()
+//            .path("/{id}")
+//            .buildAndExpand(user.getUserId())
+//            .toUriString();
+//
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//            .header("Location", location)
+//            .body("User created with Name: " + user.getUserName());
+//    }
 
-        String location = ServletUriComponentsBuilder.fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(user.getUserId())
-            .toUriString();
+    @PostMapping
+    public EntityModel<UserDto> postUser(@RequestBody @Valid UserDto userDto) {
+        userService.createUser(userDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .header("Location", location)
-            .body("User created with Name: " + user.getUserName());
+        // 현재 사용자에 대한 링크 추가
+        Link selfLink = linkTo(methodOn(UserController.class).postUser(userDto)).withSelfRel();
+
+        // 모든 사용자 목록으로 가는 링크 추가
+        Link allUsersLink = linkTo(methodOn(UserController.class).getAllUsers()).withRel("all-users");
+
+        // EntityModel로 사용자 정보와 링크를 반환
+        return EntityModel.of(userDto, selfLink, allUsersLink);
     }
 
     @DeleteMapping("/{user-id}")

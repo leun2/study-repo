@@ -5,12 +5,10 @@ import com.leun.exception.UserNotFoundException;
 import com.leun.user.dto.UserDto;
 import com.leun.user.entity.User;
 import com.leun.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,27 +34,27 @@ public class UserService {
     }
 
     public UserDto findUserById(Integer userId) {
-         User user = userRepository.findById(userId)
-             .orElseThrow(() -> {
-                 log.warn("User not found with ID: {}", userId);
-                 return new UserNotFoundException("User with ID " + userId + " does not exist");
-             });
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> {
+                log.warn("User not found with ID: {}", userId);
+                return new UserNotFoundException("User with ID " + userId + " does not exist");
+            });
 
-         UserDto userDto = UserDto.builder()
-             .userName(user.getUserName())
-             .userEmail(user.getUserEmail())
-             .build();
+        UserDto userDto = UserDto.builder()
+            .userName(user.getUserName())
+            .userEmail(user.getUserEmail())
+            .build();
 
-         return userDto;
+        return userDto;
     }
 
     public User createUser(UserDto userDto) {
         userRepository.findByUserEmail(userDto.getUserEmail())
             .ifPresent(existUser -> {
                 log.warn("User already exists with EMAIL: {}", userDto.getUserEmail());
-                throw new UserAlreadyExistsException("User with email " + userDto.getUserEmail() + " already exists.");
+                throw new UserAlreadyExistsException(
+                    "User with email " + userDto.getUserEmail() + " already exists.");
             });
-
 
         User user = new User(userDto.getUserName(), userDto.getUserEmail());
 
