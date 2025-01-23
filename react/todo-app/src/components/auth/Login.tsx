@@ -1,0 +1,72 @@
+import React, { useContext, useState } from 'react';
+import {useNavigate} from 'react-router-dom'
+import { useAuth } from "components/auth/AuthContext";
+import 'styles/Todo.css'
+
+
+function Login() {
+
+    const [username, setUserName] = useState('')
+
+    const [password, setUserPassword] = useState('')
+
+    const authContext = useAuth()
+
+    const navigate = useNavigate();
+
+    function handleUserName(e : React.ChangeEvent<HTMLInputElement>) {
+        setUserName(e.target.value)
+    }
+
+    function handleUserPassword(e : React.ChangeEvent<HTMLInputElement>) {
+        setUserPassword(e.target.value)
+
+    }
+
+    function handleLoginFormSubmit() {
+        if (authContext.login(username, password)) {
+            navigate(`/todos`)
+        } else {
+            console.log('Please enter both username and password');
+        }
+    }
+
+    console.log(authContext.authState.username + " " + authContext.authState.isAuthenticated)
+
+    return (
+        <div>
+            <div>
+                <div>
+                    <label>
+                        username
+                    </label>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        value={username} 
+                        onChange={handleUserName}/>
+                </div>
+                <div>
+                    <label>
+                        password
+                    </label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        value={password} 
+                        onChange={handleUserPassword}/>
+                </div>
+                <div>
+                    <button 
+                        type="button" 
+                        name="loginButton"
+                        onClick={handleLoginFormSubmit}>
+                            login
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Login;
