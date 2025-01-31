@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 import { useAuth } from "components/auth/AuthContext";
 import 'styles/Todo.css'
@@ -25,13 +25,11 @@ function Login() {
 
     function handleLoginFormSubmit() {
         if (authContext.login(username, password)) {
-            navigate(`/todos`)
+            navigate(`/home`)
         } else {
             console.log('Please enter both username and password');
         }
     }
-
-    console.log(authContext.authState.username + " " + authContext.authState.isAuthenticated)
 
     return (
         <div>
