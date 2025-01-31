@@ -20,7 +20,7 @@ function Header() {
                                 <ul className="navbar-nav">
                                     {authContext.authState.isAuthenticated && (
                                         <li className="nav-item fs-5">
-                                            <Link className="nav-link" to="/todos">
+                                            <Link className="nav-link" to="/home">
                                                 Home
                                             </Link>
                                         </li>
