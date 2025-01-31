@@ -7,9 +7,10 @@ import Footer from 'components/layout/Footer'
 import Login from 'components/auth/Login';
 import Error from 'components/errors/Error';
 import Todos from 'components/todo/Todos';
+import Home from 'components/home/home';
 import { AuthProvider } from 'components/auth/AuthContext';
 import AuthenticatedRoute from 'components/auth/AuthenticatedRoute';
-
+import UpdateTodo from './UpdateTodo';
 
 function Todo() {
 
@@ -21,10 +22,26 @@ function Todo() {
                     <Routes>
                         <Route path='/' element={<Login />} />
                         <Route
+                            path="/home"
+                            element={
+                                <AuthenticatedRoute>
+                                    <Home />
+                                </AuthenticatedRoute>
+                            }
+                        />
+                        <Route
                             path="/todos"
                             element={
                                 <AuthenticatedRoute>
                                     <Todos />
+                                </AuthenticatedRoute>
+                            }
+                        />
+                        <Route
+                            path="/todo/:id"
+                            element={
+                                <AuthenticatedRoute>
+                                    <UpdateTodo />
                                 </AuthenticatedRoute>
                             }
                         />
