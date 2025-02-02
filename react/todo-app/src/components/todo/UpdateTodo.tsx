@@ -4,19 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "components/auth/AuthContext";
 import { Formik,  Form, Field, ErrorMessage  } from "formik";
 
-interface Todo {
-    todoId : number
+interface UpdateTodoDto {
     todoTitle : string;
     todoDescription: string;
     todoDone : boolean;
-    todoDate : Date;
+    todoDate : string;
 }
 
 function UpdateTodo () {
 
     const { id } = useParams()
 
-    const [todo, setTodo] = useState<Todo>();
+    const [todo, setTodo] = useState<UpdateTodoDto>();
 
     const authContext = useAuth()
 
@@ -37,9 +36,9 @@ function UpdateTodo () {
             .catch(error => console.log(error))
     }
 
-    function handleSubmit(values: Todo) {
+    function handleSubmit(values: UpdateTodoDto) {
         console.log("Updating todo...", values);
-        updateTodoApi(username, values.todoId, values)
+        updateTodoApi(username, Number(id), values)
             .then(
                 () => {
                     navigate(`/todos`)
@@ -48,9 +47,9 @@ function UpdateTodo () {
             .catch(error => console.log(error));
     }
 
-    function validate(values: Todo) {
+    function validate(values: UpdateTodoDto) {
 
-        let errors: Partial<Todo> = {};
+        let errors: Partial<UpdateTodoDto> = {};
 
         if (!values.todoTitle) {
             errors.todoTitle = "Title is required.";

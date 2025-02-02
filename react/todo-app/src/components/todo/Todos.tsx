@@ -3,12 +3,12 @@ import { retrieveAllTodosForUserNameApi, deleteTodoApi } from "api/TodoApi";
 import { useAuth } from "components/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-interface Todo {
+interface TodoDto {
     todoId : number;
     todoTitle : string;
     todoDescription: string;
     todoDone : boolean;
-    todoDate : Date;
+    todoDate : string;
 }
 
 function Todos() {
@@ -19,13 +19,13 @@ function Todos() {
 
     const navigate = useNavigate()
     
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const [todos, setTodos] = useState<TodoDto[]>([]);
 
     const [message, setMessage] = useState<String | null>(null);
 
     useEffect(() => 
         getAllTodos()
-    , []);
+    , [getAllTodos]);
 
     function getAllTodos(){
         retrieveAllTodosForUserNameApi(username)
@@ -41,6 +41,7 @@ function Todos() {
             () => {
                 setMessage(`delete todo ${todoId}`)
                 getAllTodos()
+                setTimeout(() => setMessage(null), 3000);
             }
         )
         .catch((error) => errorResponse(error))
@@ -48,6 +49,10 @@ function Todos() {
 
     function updateTodo(todoId : number) {
         navigate(`/todo/${todoId}`)
+    }
+
+    function postTodo() {
+        navigate(`/todo/post`)
     }
 
     function errorResponse(error:any) {
@@ -75,7 +80,7 @@ function Todos() {
                             <td>{todo.todoTitle}</td>
                             <td>{todo.todoDescription}</td>
                             <td>{todo.todoDone ? 'true' : 'false'}</td>
-                            <td>{todo.todoDate.toString()}</td>
+                            <td>{todo.todoDate}</td>
                             <td>
                                 <button className="btn btn-warning" 
                                         onClick={() => deleteTodo(todo.todoId)}>
@@ -92,6 +97,12 @@ function Todos() {
                     ))}
                 </tbody>
             </table>
+            <div>
+                <button className="btn btn-success"
+                        onClick={() => postTodo()}>
+                            add-todo
+                </button>
+            </div>
         </div>
     )
 
