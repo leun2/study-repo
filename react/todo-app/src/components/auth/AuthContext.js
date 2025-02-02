@@ -10,14 +10,6 @@ function AuthProvider({ children }) {
         username: null
     });
 
-    // const login = async (username: string, password: string): Promise<boolean> => {
-    //     if (username === 'lee' && password === '1234') {
-    //         setAuthState({ isAuthenticated: true, username });
-    //         return true;
-    //     }
-    //     return false;
-    // };
-
     const login = (username, password) => {
         if (username === 'lee' && password === '1234') {
             console.log('Logged in with:', { username, password });
