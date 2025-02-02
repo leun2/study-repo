@@ -1,9 +1,8 @@
 package com.leun.todo.controller;
 
-import com.leun.todo.dto.TodoGetDto;
-import com.leun.todo.dto.TodoPostDto;
-import com.leun.todo.dto.TodoUpdateDto;
-import com.leun.todo.entity.Todo;
+import com.leun.todo.dto.GetTodoDto;
+import com.leun.todo.dto.PostTodoDto;
+import com.leun.todo.dto.UpdateTodoDto;
 import com.leun.todo.service.TodoService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -28,24 +27,24 @@ public class TodoController {
     }
 
     @GetMapping("/todo")
-    public ResponseEntity<List<TodoGetDto>> getAllTodos(
+    public ResponseEntity<List<GetTodoDto>> getAllTodos(
         @PathVariable("user-name") String userName) {
-        List<TodoGetDto> todos = todoService.findAllTodos(userName);
+        List<GetTodoDto> todos = todoService.findAllTodos(userName);
 
         return new ResponseEntity<>(todos, HttpStatus.OK);
     }
 
     @GetMapping("/todo/{todo-id}")
-    public ResponseEntity<TodoGetDto> getTodo(
+    public ResponseEntity<GetTodoDto> getTodo(
         @PathVariable("user-name") String userName, @PathVariable("todo-id") Integer todoId) {
-        TodoGetDto todoGetDto = todoService.findTodo(userName, todoId);
+        GetTodoDto getTodoDto = todoService.findTodo(userName, todoId);
 
-        return new ResponseEntity<>(todoGetDto, HttpStatus.OK);
+        return new ResponseEntity<>(getTodoDto, HttpStatus.OK);
     }
 
     @PostMapping("/todo")
     public ResponseEntity<String> postTodo(@PathVariable("user-name") String userName,
-        @RequestBody TodoPostDto todoDto) {
+        @RequestBody PostTodoDto todoDto) {
 
         String todoTitle = todoService.createTodo(userName, todoDto);
 
@@ -61,16 +60,16 @@ public class TodoController {
     }
 
     @GetMapping("/todo/{todo-id}/update")
-    public ResponseEntity<TodoGetDto> getUpdateDto(@PathVariable("user-name") String userName,
+    public ResponseEntity<GetTodoDto> getUpdateDto(@PathVariable("user-name") String userName,
         @PathVariable("todo-id") Integer todoId) {
-        TodoGetDto todoGetDto = todoService.findTodo(userName, todoId);
+        GetTodoDto getTodoDto = todoService.findTodo(userName, todoId);
 
-        return new ResponseEntity<>(todoGetDto, HttpStatus.OK);
+        return new ResponseEntity<>(getTodoDto, HttpStatus.OK);
     }
 
     @PatchMapping("/todo/{todo-id}/update")
     public ResponseEntity<String> updateTodo(@PathVariable("user-name") String userName,
-    @PathVariable("todo-id") Integer todoId, @RequestBody TodoUpdateDto todoDto) {
+    @PathVariable("todo-id") Integer todoId, @RequestBody UpdateTodoDto todoDto) {
         String todoTitle = todoService.updateTodo(todoId, todoDto);
 
         return new ResponseEntity<>(todoTitle, HttpStatus.OK);

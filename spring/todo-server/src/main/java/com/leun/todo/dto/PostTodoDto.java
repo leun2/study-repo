@@ -6,11 +6,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TodoGetDto {
+public class PostTodoDto {
 
-    private Integer todoId;
     private String todoTitle;
     private String todoDescription;
-    private Boolean todoDone;
     private LocalDate todoDate;
 }

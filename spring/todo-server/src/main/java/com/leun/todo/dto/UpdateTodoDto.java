@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TodoUpdateDto {
+public class UpdateTodoDto {
     private String todoTitle;
     private String todoDescription;
     private Boolean todoDone;
