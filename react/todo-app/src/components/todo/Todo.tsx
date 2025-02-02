@@ -11,6 +11,7 @@ import Home from 'components/home/home';
 import { AuthProvider } from 'components/auth/AuthContext';
 import AuthenticatedRoute from 'components/auth/AuthenticatedRoute';
 import UpdateTodo from './UpdateTodo';
+import PostTodo from './PostTodo'
 
 function Todo() {
 
@@ -42,6 +43,14 @@ function Todo() {
                             element={
                                 <AuthenticatedRoute>
                                     <UpdateTodo />
+                                </AuthenticatedRoute>
+                            }
+                        />
+                        <Route
+                            path="/todo/post"
+                            element={
+                                <AuthenticatedRoute>
+                                    <PostTodo />
                                 </AuthenticatedRoute>
                             }
                         />
