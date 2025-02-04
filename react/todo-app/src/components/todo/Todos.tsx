@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { retrieveAllTodosForUserNameApi, deleteTodoApi } from "api/TodoApi";
 import { useAuth } from "components/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -23,17 +23,17 @@ function Todos() {
 
     const [message, setMessage] = useState<String | null>(null);
 
+    const getAllTodos = useCallback(() => {
+        retrieveAllTodosForUserNameApi(username)
+            .then(response => {
+                setTodos(response.data);
+            })
+            .catch((error) => errorResponse(error));
+    }, [username]);
+
     useEffect(() => 
         getAllTodos()
     , [getAllTodos]);
-
-    function getAllTodos(){
-        retrieveAllTodosForUserNameApi(username)
-            .then(response => {
-                setTodos(response.data)
-            })
-            .catch((error) => errorResponse(error))
-    }
 
     function deleteTodo(todoId : number) {
         deleteTodoApi(username, todoId)
