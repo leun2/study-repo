@@ -1,14 +1,10 @@
 package com.leun;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 //@SpringBootTest
 class UnitTestApplicationTests {
-
-	@Test
-	void contextLoads() {
-
-	}
 
 }
