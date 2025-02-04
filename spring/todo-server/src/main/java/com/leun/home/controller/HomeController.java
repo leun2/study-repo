@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1")
 public class HomeController {
 
+    @GetMapping("/token")
+    public ResponseEntity<String> tokenCheck() {
+        return new ResponseEntity<>("token check success", HttpStatus.OK);
+    }
+
     @GetMapping("/home")
     public ResponseEntity<String> getHome() {
         return new ResponseEntity<>("Home", HttpStatus.OK);
