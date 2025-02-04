@@ -1,8 +1,8 @@
-import { apiClient } from "./ApiClient"
+import { ApiClient } from "./ApiClient"
 
 export const executeBasicAuthenticationApi =
     (token : string) => 
-        apiClient.get(`v1/token`,{
+        ApiClient.get(`v1/token`,{
             headers: {
                 Authorization: token
             }
@@ -10,7 +10,7 @@ export const executeBasicAuthenticationApi =
 
 export const executeJwtAuthenticationApi = 
     (username: string, password: string) =>
-        apiClient.post('/authenticate', {
+        ApiClient.post('/authenticate', {
             username, 
             password
         });

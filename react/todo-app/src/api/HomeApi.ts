@@ -1,11 +1,5 @@
-import axios from "axios"
-
-const apiClient = axios.create (
-    {
-        baseURL: 'http://localhost:8080'
-    }
-) 
+import { ApiClient } from "./ApiClient"
 
 export function getHomeApi() {
-    return apiClient.get('/v1/home')
+    return ApiClient.get('/v1/home')
 }
