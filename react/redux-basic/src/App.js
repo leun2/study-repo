@@ -1,12 +1,11 @@
-import './App.css';
+  import Temp from 'components/Temp'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-      </header>
-    </div>
-  );
-}
+  function App() {
+    return (
+      <div className="App">
+        <Temp />
+      </div>
+    );
+  }
 
-export default App;
+  export default App;
