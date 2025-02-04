@@ -23,8 +23,8 @@ function Login() {
 
     }
 
-    function handleLoginFormSubmit() {
-        if (authContext.login(username, password)) {
+    async function handleLoginFormSubmit() {
+        if (await authContext.login(username, password)) {
             navigate(`/home`)
         } else {
             console.log('Please enter both username and password');
