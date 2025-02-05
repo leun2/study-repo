@@ -1,7 +1,6 @@
 package com.leun.user.controller;
 
 import com.leun.user.dto.UserDto;
-import com.leun.user.entity.User;
 import com.leun.user.service.UserService;
 import java.util.List;
 import org.springframework.http.HttpStatus;

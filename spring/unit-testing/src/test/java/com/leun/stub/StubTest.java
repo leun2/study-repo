@@ -1,23 +1,25 @@
 package com.leun.stub;
 
+import com.leun.DataService;
+import com.leun.MaxValueFinder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BusinessTest {
+public class StubTest {
 
     @Test
     void findMaxValueTest() {
-        BusinessService businessServiceStub = new BusinessServiceStub();
+        DataService serviceStub = new ServiceStub();
 
-        BusinessImpl business = new BusinessImpl(businessServiceStub);
+        MaxValueFinder business = new MaxValueFinder(serviceStub);
         int result = business.findMaxValue();
 
         assertEquals(99, result);
     }
 }
 
-class BusinessServiceStub implements BusinessService {
+class ServiceStub implements DataService {
 
     @Override
     public int[] retrieveAllData() {
