@@ -21,7 +21,7 @@ public class MockTest {
     private MaxValueFinder maxValueFinder;
 
     @Test
-    void findMaxValueTestByArray() {
+    void findMaxValueTest_Array() {
 
 //        DataService dataServiceMock = mock(DataService.class);
 //        MaxValueFinder maxValueFinder = new MaxValueFinder(dataServiceMock);
@@ -33,7 +33,7 @@ public class MockTest {
     }
 
     @Test
-    void findMaxValueTestByEmptyArray() {
+    void findMaxValueTest_EmptyArray() {
         when(dataServiceMock.retrieveAllData())
             .thenReturn(new int[] { });
 
