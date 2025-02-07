@@ -13,7 +13,7 @@ spring:
     defer-datasource-initialization: true
   sql:
     init:
-      mode: never
+      mode: never # 개발 환경에서는 always, 운영 환경에서는 never
 
 springdoc:
   api-docs:
