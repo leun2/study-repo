@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,44 +27,6 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-//    private static Integer todo_count = 0;
-//
-//    private static List<Todo> todos = new ArrayList<>();
-//
-//    public List<Todo> findByUser(String username){
-//        Predicate<? super Todo> predicate = todo -> todo.getTodo_name().equalsIgnoreCase(username);
-//        return todos.stream().filter(predicate).toList();
-//    }
-//
-//    public List<Todo> addTodo(String username, String description, LocalDate localDate){
-//        Todo todo = new Todo(++todo_count, username, description, localDate, false);
-//        todos.add(todo);
-//
-//        return todos;
-//    }
-//
-//    public void deleteById(Integer id){
-//        Predicate<? super Todo> predicate = todo -> todo.getTodo_id() == id;
-//        todos.removeIf(predicate);
-//    }
-//
-//    public Todo findById(Integer id) {
-//        Predicate<? super Todo> predicate = todo -> todo.getTodo_id() == id;
-//        Todo todo = todos.stream().filter(predicate).findFirst().get();
-//
-//        return todo;
-//    }
-//
-//    public void updateTodo(@Valid Todo todo) {
-//        deleteById(todo.getTodo_id());
-//        todos.add(todo);
-//    }
-//
-//    public String getUserName(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        return  authentication.getName();
-//    }
-
     public List<Todo> findByName(String name){
 
         List<Todo> todos = todoRepository.findByTodoName(name);
@@ -79,17 +42,21 @@ public class TodoService {
     }
 
     public void deleteById(Integer id){
-        todoRepository.deleteById(id);
+        Todo todo = findById(id);
+
+        todoRepository.deleteById(todo.getTodoId());
     }
 
     public Todo findById(Integer id) {
         Optional<Todo> todoOptional = todoRepository.findById(id);
 
+        todoOptional
+            .orElseThrow(() -> new NoSuchElementException("Todo with ID " + id + " not found"));
+
         return todoOptional.get();
     }
 
     public void updateTodo(@Valid Todo todo) {
-        deleteById(todo.getTodoId());
         todoRepository.save(todo);
     }
 
