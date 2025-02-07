@@ -33,14 +33,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         List<UserDto> users = userService.findAllUsers();
 
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{user-id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("user-id") Integer userId) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("user-id") Integer userId) {
         UserDto user = userService.findUserById(userId);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -67,15 +67,15 @@ public class UserController {
 //            .body("User created with Name: " + user.getUserName());
 //    }
 
-    @PostMapping
-    public EntityModel<UserDto> postUser(@RequestBody @Valid UserDto userDto) {
+    @PostMapping("/authorize")
+    public EntityModel<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
         userService.createUser(userDto);
 
         // 현재 사용자에 대한 링크 추가
-        Link selfLink = linkTo(methodOn(UserController.class).postUser(userDto)).withSelfRel();
+        Link selfLink = linkTo(methodOn(UserController.class).createUser(userDto)).withSelfRel();
 
         // 모든 사용자 목록으로 가는 링크 추가
-        Link allUsersLink = linkTo(methodOn(UserController.class).getAllUsers()).withRel("all-users");
+        Link allUsersLink = linkTo(methodOn(UserController.class).getUsers()).withRel("all-users");
 
         // EntityModel로 사용자 정보와 링크를 반환
         return EntityModel.of(userDto, selfLink, allUsersLink);
@@ -86,7 +86,7 @@ public class UserController {
         userService.deleteUser(userId);
 
         String redirectUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/delete-success")
+            .path("/user")
             .toUriString();
 
         return ResponseEntity.status(HttpStatus.SEE_OTHER)
