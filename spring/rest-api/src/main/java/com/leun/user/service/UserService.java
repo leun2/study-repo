@@ -48,7 +48,7 @@ public class UserService {
         return userDto;
     }
 
-    public User createUser(UserDto userDto) {
+    public void createUser(UserDto userDto) {
         userRepository.findByUserEmail(userDto.getUserEmail())
             .ifPresent(existUser -> {
                 log.warn("User already exists with EMAIL: {}", userDto.getUserEmail());
@@ -58,7 +58,7 @@ public class UserService {
 
         User user = new User(userDto.getUserName(), userDto.getUserEmail());
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public void deleteUser(Integer userId) {
