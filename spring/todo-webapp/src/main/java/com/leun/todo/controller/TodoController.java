@@ -5,6 +5,7 @@ import com.leun.todo.service.TodoService;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,14 +20,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @RequestMapping
 public class TodoController {
 
+    @Autowired
     private TodoService todoService;
 
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
-    }
-
 //    @GetMapping("todo")
-//    public String todo(ModelMap modelMap) {
+//    public String getTodos(ModelMap modelMap) {
 //        List<Todo> todos = todoService.findByUser(todoService.getUserName());
 //
 //        modelMap.put("todos",todos);
@@ -83,7 +81,7 @@ public class TodoController {
 //    }
 
     @GetMapping("/todo")
-    public String todo(ModelMap modelMap) {
+    public String getTodos(ModelMap modelMap) {
         List<Todo> todos = todoService.findByName(todoService.getUserName());
 
         modelMap.put("todos",todos);
@@ -92,7 +90,7 @@ public class TodoController {
     }
 
     @GetMapping("/add-todo")
-    public String getAddTodo(ModelMap modelMap) {
+    public String postTodo(ModelMap modelMap) {
         Todo todo = new Todo(0, todoService.getUserName(), "", LocalDate.now(), false);
         modelMap.put("todo",todo);
         return "add-todo";
@@ -100,7 +98,7 @@ public class TodoController {
 
 
     @PostMapping("/add-todo")
-    public String postAddTodo(@Valid Todo todo, BindingResult bindingResult, ModelMap modelMap) {
+    public String postTodo(@Valid Todo todo, BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             modelMap.put("todo", todo); // 오류가 발생하면 폼 데이터를 다시 모델에 추가
             return "add-todo"; // 포워딩하여 오류 메시지 표시
@@ -118,7 +116,7 @@ public class TodoController {
     }
 
     @GetMapping("/update-todo")
-    public String getUpdateTodo(@RequestParam Integer id, ModelMap modelMap){
+    public String updateTodo(@RequestParam Integer id, ModelMap modelMap){
         Todo todo = todoService.findById(id);
         modelMap.addAttribute("todo", todo);
 
@@ -126,7 +124,7 @@ public class TodoController {
     }
 
     @PostMapping("/update-todo")
-    public String postUpdateTodo(@Valid Todo todo, BindingResult bindingResult, ModelMap modelMap){
+    public String updateTodo(@Valid Todo todo, BindingResult bindingResult, ModelMap modelMap){
 
         if (bindingResult.hasErrors()) {
             modelMap.put("todo", todo);
