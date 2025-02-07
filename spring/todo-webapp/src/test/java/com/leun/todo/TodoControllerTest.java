@@ -76,7 +76,7 @@ class TodoControllerTest {
 
     @Test
     @WithMockUser(username = "lee", roles = {"USER", "ADMIN"})
-    void postTodo_ShouldRedirectToTodo_WhenValidDataIsProvided() throws Exception {
+    void postTodo_ShouldRedirectToTodo_WhenValidDataProvided() throws Exception {
 
         String description = "TodoController Test";
 
@@ -100,7 +100,7 @@ class TodoControllerTest {
 
     @Test
     @WithMockUser(username = "lee", roles = {"USER", "ADMIN"})
-    void postTodo_ShouldReturnAddTodo_WhenInvalidData() throws Exception {
+    void postTodo_ShouldReturnAddTodo_WhenInvalidDataProvided() throws Exception {
         mockMvc.perform(post("/add-todo")
                 .param("todoDescription", "short")
                 .param("todoDate", "invalid-date")
@@ -138,7 +138,7 @@ class TodoControllerTest {
 
     @Test
     @WithMockUser(username = "lee", roles = {"USER", "ADMIN"})
-    void updateTodo_ShouldRedirectToTodo_WhenValidDataIsProvided() throws Exception {
+    void updateTodo_ShouldRedirectToTodo_WhenValidDataProvided() throws Exception {
 
         when(todoService.getUserName()).thenReturn(username);
 
