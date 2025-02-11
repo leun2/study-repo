@@ -4,6 +4,7 @@ import com.leun.user.dto.UserDto;
 import com.leun.user.entity.User;
 import com.leun.user.repository.UserRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,9 @@ public class UserService {
     }
 
     public UserDto findUserById(Integer userId) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(
+            () -> new NoSuchElementException("User Does Not Exist")
+        );
 
         return UserDto.builder()
             .userName(user.getUserName())
@@ -44,7 +47,9 @@ public class UserService {
     }
 
     public UserDto findUserByName(String userName) {
-        User user = userRepository.findByUserName(userName).get();
+        User user = userRepository.findByUserName(userName).orElseThrow(
+            () -> new NoSuchElementException("User Does Not Exist")
+        );
 
         return UserDto.builder()
             .userName(user.getUserName())
