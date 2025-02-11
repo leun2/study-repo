@@ -42,7 +42,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void findByName_ShouldReturnTodoList_WhenUserHasTodos() {
+    void findByName_shouldReturnTodoList_whenUserHasTodos() {
         // Given
         when(todoRepository.findByTodoName(username)).thenReturn(List.of(mockTodo));
 
@@ -57,7 +57,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void findById_ShouldReturnTodo_WhenTodoExists() {
+    void findById_shouldReturnTodo_whenTodoExists() {
         when(todoRepository.findById(1)).thenReturn(Optional.of(mockTodo));
 
         Todo todo = todoService.findById(1);
@@ -68,7 +68,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void findById_ShouldThrowException_WhenTodoDoesNotExist() {
+    void findById_shouldThrowException_whenTodoDoesNotExist() {
         when(todoRepository.findById(0)).thenReturn(Optional.empty());
 
         NoSuchElementException thrown = assertThrows(
@@ -81,7 +81,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void deleteById_ShouldDeleteTodo_WhenTodoExists() {
+    void deleteById_shouldDeleteTodo_whenTodoExists() {
         // Given
         int validId = 1;
         when(todoRepository.findById(validId)).thenReturn(Optional.of(mockTodo));
@@ -96,7 +96,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void deleteById_ShouldThrowException_WhenTodoDoesNotExist() {
+    void deleteById_shouldThrowException_whenTodoDoesNotExist() {
         int invalidId = 999;
         when(todoRepository.findById(invalidId)).thenReturn(Optional.empty());
 
@@ -112,7 +112,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void addTodo_ShouldCreateTodo_WhenValidTodoIsProvided() {
+    void addTodo_shouldCreateTodo_whenValidTodoIsProvided() {
 
         when(todoRepository.save(any(Todo.class))).thenReturn(mockTodo);
         when(todoRepository.findByTodoName(username)).thenReturn(List.of(mockTodo));
@@ -128,7 +128,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void updateTodo_ShouldUpdateTodo_WhenValidTodoIsProvided() {
+    void updateTodo_shouldUpdateTodo_whenValidTodoIsProvided() {
 
         // Given
         when(todoRepository.save(any(Todo.class))).thenReturn(mockTodo);

@@ -38,7 +38,7 @@ class HomeControllerTest {
 
     @Test
     @WithMockUser(username = "lee", roles = {"USER", "ADMIN"})
-    void getHome_ShouldReturnHomeViewWithModelAttribute() throws Exception {
+    void getHome_shouldReturnHomeViewWithModelAttribute() throws Exception {
         when(homeService.getUserName()).thenReturn("lee");
 
         mockMvc.perform(get("/"))

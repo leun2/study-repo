@@ -34,7 +34,7 @@ class HomeServiceTest {
     }
 
     @Test
-    void getUserName_ShouldReturnAuthenticatedUserName() {
+    void getUserName_shouldReturnAuthenticatedUserName() {
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getName()).thenReturn("lee");
