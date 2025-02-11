@@ -20,7 +20,6 @@ function Login() {
 
     function handleUserPassword(e : React.ChangeEvent<HTMLInputElement>) {
         setUserPassword(e.target.value)
-
     }
 
     async function handleLoginFormSubmit() {
