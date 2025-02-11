@@ -6,9 +6,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,7 +62,7 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(username = "lee")
-    void getUsers_shouldReturnListOfUsers() throws Exception {
+    void getUsers_shouldReturnUsers() throws Exception {
 
         List<UserDto> users = new ArrayList<>();
 
@@ -75,26 +73,26 @@ public class UserControllerTest {
                 .userName("kim")
             .build());
 
-        when(userService.findAllUsers()).thenReturn(users);
+        when(userService.findUsersById()).thenReturn(users);
 
-        mockMvc.perform(get("/user"))
+        mockMvc.perform(get("/users"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].userName").value("lee"))
             .andExpect(jsonPath("$[0].userEmail").value("lee@example.com"))
             .andExpect(jsonPath("$[1].userName").value("kim"))
             .andExpect(jsonPath("$[1].userEmail").value("kim@example.com"));
 
-        verify(userService).findAllUsers();
+        verify(userService).findUsersById();
     }
 
     @Test
     @WithMockUser(username = "lee")
-    void getUser_shouldReturnUserDto_whenUserExists() throws Exception {
+    void getUser_shouldReturnUser_whenUserExists() throws Exception {
 
         when(userService.findUserById(anyInt())).thenReturn(userDto);
 
         // when & then
-        mockMvc.perform(get("/user/{user-id}", 1)) // userId = 1 설정
+        mockMvc.perform(get("/users/{user-id}", 1)) // userId = 1 설정
             .andExpect(status().isOk()) // HTTP 200 확인
             .andExpect(jsonPath("$.userName").value(userDto.getUserName())) // JSON 응답 값 검증
             .andExpect(jsonPath("$.userEmail").value(userDto.getUserEmail())); // 추가 검증 가능
@@ -104,7 +102,7 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(username = "lee")
-    void createUser_shouldReturnUserDtoWithLinks_whenValidDataProvided() throws Exception {
+    void createUser_shouldReturnUserWithLinks_whenValidDataProvided() throws Exception {
 
         // given
         String userJson = objectMapper.writeValueAsString(userDto);
@@ -112,7 +110,7 @@ public class UserControllerTest {
         doNothing().when(userService).createUser(any(UserDto.class));
 
         // when & then
-        mockMvc.perform(post("/user/authorize")
+        mockMvc.perform(post("/users/authorize")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson)
                 .with(csrf()))
@@ -120,21 +118,21 @@ public class UserControllerTest {
             .andExpect(jsonPath("$.userName").value("lee")) // 사용자 이름 확인
             .andExpect(jsonPath("$.userEmail").value("lee@example.com")) // 이메일 확인
             .andExpect(jsonPath("$._links.self.href").exists()) // self 링크 존재 확인
-            .andExpect(jsonPath("$._links.all-users.href").exists()); // all-users 링크 존재 확인
+            .andExpect(jsonPath("$._links.users.href").exists()); // users 링크 존재 확인
 
         verify(userService).createUser(any(UserDto.class));
     }
 
     @Test
     @WithMockUser(username = "lee")
-    void deleteUser_shouldRedirectToUsers_whenUserDeleted() throws Exception {
+    void deleteUser_shouldRedirectToUser_whenUserDeleted() throws Exception {
         Integer userId = 1;
         doNothing().when(userService).deleteUser(userId);
 
-        mockMvc.perform(delete("/user/{user-id}", userId)
+        mockMvc.perform(delete("/users/{user-id}", userId)
                 .with(csrf())) // DELETE 요청
             .andExpect(status().isSeeOther()) // HTTP 303 응답 확인
-            .andExpect(header().string(HttpHeaders.LOCATION, "http://localhost/user"));
+            .andExpect(header().string(HttpHeaders.LOCATION, "http://localhost/users"));
 
         verify(userService).deleteUser(userId);
     }
