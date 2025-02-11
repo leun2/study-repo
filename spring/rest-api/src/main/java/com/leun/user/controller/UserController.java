@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
-        List<UserDto> users = userService.findAllUsers();
+        List<UserDto> users = userService.findUsersById();
 
         return ResponseEntity.ok(users);
     }
@@ -75,7 +75,7 @@ public class UserController {
         Link selfLink = linkTo(methodOn(UserController.class).createUser(userDto)).withSelfRel();
 
         // 모든 사용자 목록으로 가는 링크 추가
-        Link allUsersLink = linkTo(methodOn(UserController.class).getUsers()).withRel("all-users");
+        Link allUsersLink = linkTo(methodOn(UserController.class).getUsers()).withRel("users");
 
         // EntityModel로 사용자 정보와 링크를 반환
         return EntityModel.of(userDto, selfLink, allUsersLink);
@@ -86,7 +86,7 @@ public class UserController {
         userService.deleteUser(userId);
 
         String redirectUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/user")
+            .path("/users")
             .toUriString();
 
         return ResponseEntity.status(HttpStatus.SEE_OTHER)

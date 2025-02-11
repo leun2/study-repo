@@ -23,27 +23,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/{user-id}")
+@RequestMapping("/users/{user-id}/post")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     public PostController(PostService postService) {
         this.postService = postService;
     }
 
-    @GetMapping("/post")
-    public ResponseEntity<List<PostDto>> getAllPosts(@PathVariable("user-id") Integer userId) {
-        List<PostDto> posts = postService.findAllPosts(userId);
+    @GetMapping
+    public ResponseEntity<List<PostDto>> getPosts(@PathVariable("user-id") Integer userId) {
+        List<PostDto> posts = postService.findPostsById(userId);
 
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PostMapping("/post")
-    public EntityModel<PostDto> postPost(@PathVariable("user-id") Integer userId, @RequestBody @Valid PostDto postDto) {
+    @PostMapping
+    public EntityModel<PostDto> createPost(@PathVariable("user-id") Integer userId, @RequestBody @Valid PostDto postDto) {
         postService.createPost(userId, postDto);
 
-        Link allPostsLink = linkTo(methodOn(PostController.class).getAllPosts(userId)).withRel("all-posts");
+        Link allPostsLink = linkTo(methodOn(PostController.class).getPosts(userId)).withRel("posts");
 
         return EntityModel.of(postDto, allPostsLink);
     }
