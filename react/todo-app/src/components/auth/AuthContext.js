@@ -1,4 +1,4 @@
-import { apiClient } from 'api/ApiClient';
+import { ApiClient } from 'api/ApiClient';
 import { executeJwtAuthenticationApi } from 'api/AuthenticationApiService';
 import React, { createContext, useContext, useState } from 'react';
 
@@ -46,7 +46,6 @@ function AuthProvider({ children }) {
 
     async function login(username, password){
 
-
         try {
             const response = await executeJwtAuthenticationApi(username, password)
             
@@ -56,7 +55,7 @@ function AuthProvider({ children }) {
                 console.log('Logged in with:', { username, password });
                 
                 setAuthState({ isAuthenticated: true, username, token: jwtToken});
-                apiClient.interceptors.request.use(
+                ApiClient.interceptors.request.use(
                     (config) => {
                         config.headers.Authorization = jwtToken;
                         return config;
