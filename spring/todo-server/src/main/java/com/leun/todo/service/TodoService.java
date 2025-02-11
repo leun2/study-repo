@@ -38,7 +38,9 @@ public class TodoService {
     }
 
     public String createTodo(String userName, PostTodoDto todoDto) {
-        User user = userRepository.findByUserName(userName).get();
+        User user = userRepository.findByUserName(userName).orElseThrow(
+            () -> new NoSuchElementException("User Does Not Exist")
+        );
         Todo todo = new Todo(user, todoDto.getTodoTitle(), todoDto.getTodoDescription(), false,
             todoDto.getTodoDate());
         return todoRepository.save(todo).getTodoTitle();
@@ -71,7 +73,7 @@ public class TodoService {
         }
     }
 
-    public String updateTodo(Integer todoId, UpdateTodoDto todoDto) {
+    public void updateTodo(Integer todoId, UpdateTodoDto todoDto) {
 
         Todo todo = todoRepository.findById(todoId)
             .orElseThrow(() -> new NoSuchElementException("Todo not found with id: " + todoId));
@@ -82,7 +84,5 @@ public class TodoService {
         todo.setTodoDate(todoDto.getTodoDate());
 
         todoRepository.save(todo);
-
-        return todo.getTodoTitle();
     }
 }
