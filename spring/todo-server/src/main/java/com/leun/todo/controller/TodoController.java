@@ -27,7 +27,7 @@ public class TodoController {
     }
 
     @GetMapping("/todo")
-    public ResponseEntity<List<GetTodoDto>> getAllTodos(
+    public ResponseEntity<List<GetTodoDto>> getTodos(
         @PathVariable("user-name") String userName) {
         List<GetTodoDto> todos = todoService.findAllTodos(userName);
 
@@ -43,7 +43,7 @@ public class TodoController {
     }
 
     @PostMapping("/todo")
-    public ResponseEntity<String> postTodo(@PathVariable("user-name") String userName,
+    public ResponseEntity<String> createTodo(@PathVariable("user-name") String userName,
         @RequestBody PostTodoDto todoDto) {
 
         String todoTitle = todoService.createTodo(userName, todoDto);
@@ -56,11 +56,11 @@ public class TodoController {
         @PathVariable("todo-id") Integer todoId) {
         todoService.deleteTodo(userName, todoId);
 
-        return new ResponseEntity<>(userName, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("delete-success", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/todo/{todo-id}/update")
-    public ResponseEntity<GetTodoDto> getUpdateDto(@PathVariable("user-name") String userName,
+    public ResponseEntity<GetTodoDto> getTodoForUpdate(@PathVariable("user-name") String userName,
         @PathVariable("todo-id") Integer todoId) {
         GetTodoDto getTodoDto = todoService.findTodo(userName, todoId);
 
@@ -70,8 +70,8 @@ public class TodoController {
     @PatchMapping("/todo/{todo-id}/update")
     public ResponseEntity<String> updateTodo(@PathVariable("user-name") String userName,
     @PathVariable("todo-id") Integer todoId, @RequestBody UpdateTodoDto todoDto) {
-        String todoTitle = todoService.updateTodo(todoId, todoDto);
+        todoService.updateTodo(todoId, todoDto);
 
-        return new ResponseEntity<>(todoTitle, HttpStatus.OK);
+        return new ResponseEntity<>("update-success", HttpStatus.OK);
     }
 }

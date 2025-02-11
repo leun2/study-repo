@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
 
         List<UserDto> users = userService.findAllUsers();
 
@@ -31,14 +31,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> postUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
         String userName = userService.createUser(userDto);
 
         return new ResponseEntity<>(userName, HttpStatus.CREATED);
     }
 
     @GetMapping("/{user-name}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("user-name") String userName) {
+    public ResponseEntity<UserDto> getUserByName(@PathVariable("user-name") String userName) {
 
         UserDto userDto = userService.findUserByName(userName);
 
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/search/{user-id}")
-    public ResponseEntity<UserDto> getUserByName(@PathVariable("user-id") Integer userId) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("user-id") Integer userId) {
 
         UserDto userDto = userService.findUserById(userId);
 
