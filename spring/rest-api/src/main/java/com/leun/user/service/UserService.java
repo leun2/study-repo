@@ -22,7 +22,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserDto> findAllUsers() {
+    public List<UserDto> findUsersById() {
         List<UserDto> users = userRepository.findAll().stream()
             .map(user -> UserDto.builder()
                 .userName(user.getUserName())
