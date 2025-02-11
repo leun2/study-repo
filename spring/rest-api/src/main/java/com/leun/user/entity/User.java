@@ -1,6 +1,7 @@
 package com.leun.user.entity;
 
 import com.leun.post.entity.Post;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class User {
     @Column(name = "user_email", unique = true)
     private String userEmail;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
     public User(String userName, String userEmail) {

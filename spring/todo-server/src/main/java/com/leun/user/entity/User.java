@@ -1,6 +1,7 @@
 package com.leun.user.entity;
 
 import com.leun.todo.entity.Todo;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,7 +33,7 @@ public class User {
     @Column(name = "user_password")
     private String userPassword;
 
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todos;
 
     public User(String userName, String userPassword) {
