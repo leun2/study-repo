@@ -8,6 +8,7 @@ import com.leun.user.dto.UserDto;
 import com.leun.user.entity.User;
 import com.leun.user.repository.UserRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,10 @@ public class PostService {
         this.userRepository = userRepository;
     }
 
-    public List<PostDto> findAllPosts(Integer userId) {
-        List<Post> posts = userRepository.findById(userId).get().getPosts();
+    public List<PostDto> findPostsById(Integer userId) {
+        List<Post> posts = userRepository.findById(userId).orElseThrow(
+                () -> new NoSuchElementException("User with ID " + userId + " does not exist")
+            ).getPosts();
 
         return posts.stream().map(
           post -> PostDto.builder()
@@ -35,12 +38,14 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
-    public Post createPost(Integer userId, PostDto postDto) {
-        User user = userRepository.findById(userId).get();
+    public void createPost(Integer userId, PostDto postDto) {
+        User user = userRepository.findById(userId).orElseThrow(
+            () -> new NoSuchElementException("User with ID " + userId + " does not exist")
+        );
 
         Post post = new Post(user, postDto.getPostTitle(), postDto.getPostDescription());
 
-        return postRepository.save(post);
+        postRepository.save(post);
     }
 
 }
