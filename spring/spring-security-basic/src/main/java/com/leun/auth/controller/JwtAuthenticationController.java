@@ -18,7 +18,7 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping("/authentication")
-    public JwtResponse authenticated(Authentication authentication) {
+    public JwtResponse authenticate(Authentication authentication) {
 
         String token = jwtService.createToken(authentication);
 
