@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
  * 토큰 관련 테스트용 컨트롤러
  */
 @RestController
-@RequestMapping(TokenTestController.BASE_URL)
-public class TokenTestController {
+@RequestMapping(TokenResultController.BASE_URL)
+public class TokenResultController {
 
     public static final String BASE_URL = "/v1/token";
     public static final String TEST_ENDPOINT = "/test";
@@ -19,7 +19,7 @@ public class TokenTestController {
      * @return 성공 메시지
      */
     @GetMapping(TEST_ENDPOINT)
-    public String getTokenTest() {
+    public String tokenResult() {
         return "success";
     }
 }
