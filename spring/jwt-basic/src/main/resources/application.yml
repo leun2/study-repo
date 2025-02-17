@@ -1,0 +1,19 @@
+spring:
+  application:
+    name:
+      security-basic
+  datasource:
+    url: jdbc:mysql://localhost:3306/temp
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
