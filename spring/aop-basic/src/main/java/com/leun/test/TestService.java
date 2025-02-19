@@ -1,5 +1,6 @@
 package com.leun.test;
 
+import com.leun.aop.TrackTime;
 import java.util.Arrays;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ public class TestService {
         this.testData = testData;
     }
 
+    @TrackTime
     public int calculateMax() {
         int[] data = testData.retrieveData();
         return Arrays.stream(data).max().orElse(0);
