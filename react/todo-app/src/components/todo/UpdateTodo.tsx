@@ -35,16 +35,13 @@ function UpdateTodo () {
             })
             .catch(error => console.log(error))
     }
-
-    function handleSubmit(values: UpdateTodoDto) {
-        console.log("Updating todo...", values);
-        updateTodoApi(username, Number(id), values)
-            .then(
-                () => {
-                    navigate(`/todos`)
-                }
-            )
-            .catch(error => console.log(error));
+    const handleSubmit = async (values: UpdateTodoDto) => {
+        try {
+            await updateTodoApi(username, Number(id), values)
+            navigate(`/todos`)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     function validate(values: UpdateTodoDto) {
