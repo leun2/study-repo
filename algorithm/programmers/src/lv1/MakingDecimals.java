@@ -11,7 +11,7 @@ public class MakingDecimals {
             return isPrime(sum) ? 1 : 0;
         }
 
-        int count = 0B
+        int count = 0;
         for (int i = start; i < arr.length; i++) {
             count += comb(arr, i + 1, depth + 1, sum + arr[i]);
         }
